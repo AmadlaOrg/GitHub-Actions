@@ -1,0 +1,41 @@
+---
+name: Pre-Build Workflow
+on:
+  workflow_call: {}
+
+jobs:
+  tests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-22.04
+          - ubuntu-24.04
+          - windows-2019
+          - windows-2022
+          - windows-2025
+          - macos-13
+          - macos-14
+          - macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cleanup Environment
+        uses: AmadlaOrg/GitHub-Actions/cleanup@main
+
+      - name: Cache Go Modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: go-mod-${{ matrix.os }}-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            go-mod-${{ matrix.os }}-
+            go-mod-
+
+      - name: Run Tests
+        uses: AmadlaOrg/GitHub-Actions/test@main
+
+      - name: Lint Code
+        uses: AmadlaOrg/GitHub-Actions/lint@main
