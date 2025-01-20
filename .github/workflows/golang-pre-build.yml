@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Cleanup Environment
-        uses: AmadlaOrg/GitHub-Actions/.github/cleanup@master
+        uses: AmadlaOrg/GitHub-Actions/.github/golang/cleanup@master
 
       - name: Cache Go Modules
         uses: actions/cache@v4
@@ -35,7 +35,7 @@ jobs:
             go-mod-
 
       - name: Run Tests
-        uses: AmadlaOrg/GitHub-Actions/.github/test@master
+        uses: AmadlaOrg/GitHub-Actions/.github/golang/test@master
 
       - name: Lint Code
-        uses: AmadlaOrg/GitHub-Actions/.github/lint@master
+        uses: AmadlaOrg/GitHub-Actions/.github/golang/lint@master
